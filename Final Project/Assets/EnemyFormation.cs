@@ -12,12 +12,12 @@ public Vector3 destination;
 public GameObject bulletPrefab;
 private float timeTillFire;
 public float fireDelay=3;
-
+public AudioSource audioSource;
+public AudioClip explosionClip;
     void Start()
     {
       movingSide = true;
       timeTillFire= fireDelay;
-    
       destination = new Vector3(transform.position.x, transform.position.y - 0.75f, transform.position.z);
     }
 
@@ -32,24 +32,12 @@ MoveHorizontal();
     {
       MoveDown();
     }
-    if(timeTillFire> 0)
-    {
-      timeTillFire -=Time.deltaTime;
-    }
-    else {
-      EnemyShoot();
-      timeTillFire = fireDelay;
   }
+public void PlayExplosionClip()
+{
+    audioSource.PlayOneShot(explosionClip);
 }
-  public void EnemyShoot()
 
-  {
-    int numberofEnemies = GetComponentsInChildren<EnemyScript>().Length;
-    int index =Random.Range(0,numberofEnemies);
-    var enemyArray = GetComponentsInChildren<EnemyScript>();
-    Vector3 bullPos = enemyArray[index].transform.position;
-    Instantiate(bulletPrefab, Vector3.zero, Quaternion.identity);
-  }
   public void SetDestinationAndMoveDown()
   {
     destination = new Vector3(transform.position.x, transform.position.y-0.75f, transform.position.z);
